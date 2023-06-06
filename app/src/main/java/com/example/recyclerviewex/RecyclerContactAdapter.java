@@ -22,17 +22,17 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
 
     }
 
-    @NonNull
-    @Override
+   @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-     View view=     LayoutInflater.from(context).inflate(R.layout.contact_row,parent,false);
+     View view = LayoutInflater.from(context).inflate(R.layout.contact_row,parent,false);
      ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.contImg.setImageResource(arrContact.get(position).img);
+        ContactModel contactModel = arrContact.get(position);
+        holder.contImg.setImageBitmap(arrContact.get(position).img);
         holder.contName.setText(arrContact.get(position).contName);
         holder.contNum.setText(arrContact.get(position).contNum);
 
@@ -52,6 +52,16 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
             contName = itemView.findViewById(R.id.cont_name);
             contImg = itemView.findViewById(R.id.Cont_img);
             contNum = itemView.findViewById(R.id.Cont_num);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    // Delete the contact when long-pressed
+                    arrContact.remove(getAdapterPosition());
+                    notifyDataSetChanged();
+                    return true;
+                }
+            });
         }
     }
 }
